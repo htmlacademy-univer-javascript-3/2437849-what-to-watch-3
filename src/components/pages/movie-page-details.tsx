@@ -1,17 +1,22 @@
 import React from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {AppRoute, getReviewRoute} from '../app';
 import {FilmCards} from '../film-card';
-import {Film, Films} from '../../mocks/films';
-import {Detail, Details} from '../../mocks/details';
-import {Overview, Overviews} from '../../mocks/overview';
+import {Films} from '../../mocks/films';
+import {Details} from '../../mocks/details';
+import {Overviews} from '../../mocks/overview';
 
 export function MoviePageDetails() {
   const { id } = useParams();
   const filmId = id?.split('=')[1];
-  const film: Film = Films.filter((filmInFilms) => filmInFilms.id === filmId)[0];
-  const detail: Detail = Details.filter((detailInDetails) => detailInDetails.filmId === filmId)[0];
-  const overview: Overview = Overviews.filter((overviewInOverviews) => overviewInOverviews.filmId === filmId)[0];
+  const film = Films.filter((filmInFilms) => filmInFilms.id === filmId)[0];
+  const detail = Details.filter((detailInDetails) => detailInDetails.filmId === filmId)[0];
+  const overview = Overviews.filter((overviewInOverviews) => overviewInOverviews.filmId === filmId)[0];
+
+  const navigate = useNavigate();
+  if (!film || !detail || !overview) {
+    navigate(AppRoute.NotFoundPage);
+  }
 
   return(
     <React.Fragment>
