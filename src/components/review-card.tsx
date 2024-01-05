@@ -1,16 +1,16 @@
 import {ReactNode} from 'react';
 import { Review } from '../mocks/review';
 
-type propsReviewCard = {
+type ReviewCardProps = {
   review: Review;
 }
 
-type reviewsListProps = {
+type ReviewsListProps = {
   reviews: Review[];
   children: ReactNode;
 }
 
-export function ReviewCard({review}: propsReviewCard) {
+export function ReviewCard({review}: ReviewCardProps) {
   return (
     <div className="review">
       <blockquote className="review__quote">
@@ -27,7 +27,7 @@ export function ReviewCard({review}: propsReviewCard) {
   );
 }
 
-export function ReviewCards({reviews, children}: reviewsListProps) {
+export function ReviewCards({reviews, children}: ReviewsListProps) {
   return (
     <div className="film-card__reviews-col">
       {reviews.map((review) => (
