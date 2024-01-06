@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {AppRoute, getReviewRoute} from '../app';
-import {FilmCards} from '../film-card';
+import {FilmCards, getSimilarMovies} from '../film-card';
+import {Footer} from '../footer';
 import {Films} from '../../mocks/films';
 import {Details} from '../../mocks/details';
 import {Overviews} from '../../mocks/overview';
@@ -9,13 +10,14 @@ import {Overviews} from '../../mocks/overview';
 export function MoviePageInList() {
   const { id } = useParams();
   const filmId = id?.split('=')[1];
-  const film = Films.filter((filmInFilms) => filmInFilms.id === filmId)[0];
-  const detail = Details.filter((detailInDetails) => detailInDetails.filmId === filmId)[0];
-  const overview = Overviews.filter((overviewInOverviews) => overviewInOverviews.filmId === filmId)[0];
+  const film = Films.find((filmInFilms) => filmInFilms.id === filmId);
+  const detail = Details.find((detailInDetails) => detailInDetails.filmId === filmId);
+  const overview = Overviews.find((overviewInOverviews) => overviewInOverviews.filmId === filmId);
 
   const navigate = useNavigate();
   if (!film || !detail || !overview) {
     navigate(AppRoute.NotFoundPage);
+    return null;
   }
 
   return(
@@ -120,23 +122,11 @@ export function MoviePageInList() {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmCards films={Films.slice(1, 5)}>
+          <FilmCards films={getSimilarMovies({genre: detail.genre, filmId: film.id, films: Films})}>
           </FilmCards>
         </section>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <Link to={AppRoute.MainPage} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer/>
       </div>
     </React.Fragment>
   );

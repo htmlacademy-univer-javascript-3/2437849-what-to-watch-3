@@ -18,7 +18,7 @@ export function ReviewCard({review}: ReviewCardProps) {
 
         <footer className="review__details">
           <cite className="review__author">{review.author}</cite>
-          <time className="review__date" dateTime={review.date.getDate().toString()}>{review.date.getDate()}</time>
+          <time className="review__date" dateTime={review.date.toLocaleDateString()}>{review.date.toLocaleDateString()}</time>
         </footer>
       </blockquote>
 
