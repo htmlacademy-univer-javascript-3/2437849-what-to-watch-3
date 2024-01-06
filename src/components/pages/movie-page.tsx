@@ -1,13 +1,18 @@
 import React, {useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {AppRoute, getReviewRoute} from '../app';
-import {FilmCards, getSimilarMovies} from '../film-card';
-import {DetailsTab, OverviewTab, ReviewsTab, TabsNavigation} from '../tabs';
+import {AppRoute} from '../app';
+import {FilmCards} from '../film-card';
+import {TabsNavigation} from '../tabs-navigation';
+import {DetailsTab} from '../tabs-details';
+import {OverviewTab} from '../tabs-overviews';
+import {ReviewsTab} from '../tabs-reviews';
 import {Footer} from '../footer';
 import {Films} from '../../mocks/films';
 import {Details} from '../../mocks/details';
 import {Overviews} from '../../mocks/overview';
 import {Reviews} from '../../mocks/review';
+import {getReviewRoute} from '../functions/get-review-route';
+import {getSimilarMovies} from '../functions/get-similar-movies';
 
 export function MoviePage() {
   const { id } = useParams();

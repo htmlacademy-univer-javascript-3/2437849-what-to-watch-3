@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FilmCards} from '../film-card';
-import { Footer } from '../footer';
+import {Footer} from '../footer';
 import {Film, Films} from '../../mocks/films';
-import {Detail} from '../../mocks/details';
+import {Detail, Details} from '../../mocks/details';
+import {GenreList} from '../genres-list';
+import {getMoviesByGenre} from '../functions/get-movies-by-genre';
 
 export type MainProps = {
   film: Film;
@@ -10,6 +12,15 @@ export type MainProps = {
 }
 
 export function Main({film, detail}: MainProps) {
+  const [activeGenre, setActiveGenre] = useState('All genres');
+  const [filteredMovies, setFilteredMovies] = useState(Films);
+
+  const handleGenreChange = (genre: string) => {
+    setActiveGenre(genre);
+    const newFilteredMovies = getMoviesByGenre(Films, Details, genre);
+    setFilteredMovies(newFilteredMovies);
+  };
+
   return (
     <React.Fragment>
       <section className="film-card">
@@ -77,40 +88,9 @@ export function Main({film, detail}: MainProps) {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
+          <GenreList details={Details} activeGenre={activeGenre} onGenreChange={handleGenreChange}/>
 
-          <FilmCards films={Films}>
+          <FilmCards films={filteredMovies}>
           </FilmCards>
 
           <div className="catalog__more">
