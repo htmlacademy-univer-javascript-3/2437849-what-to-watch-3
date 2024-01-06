@@ -45,7 +45,3 @@ export function App({mainParams}: AppProps) {
     </BrowserRouter>
   );
 }
-
-export function getReviewRoute(filmId: string): string {
-  return AppRoute.ReviewPage.replace(':id', `:id=${filmId}`);
-}

@@ -3,7 +3,6 @@ import {ReactNode, useRef, useState} from 'react';
 import {AppRoute} from './app';
 import {VideoPlayer} from './video-player';
 import {Link} from 'react-router-dom';
-import {Details} from '../mocks/details';
 
 type CardProps = {
   film: Film;
@@ -24,7 +23,7 @@ export function FilmCard({film}: CardProps) {
 
   const handleMouseLeave = () => {
     if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current | undefined);
+      clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
     setIsHovered(false);
@@ -34,7 +33,7 @@ export function FilmCard({film}: CardProps) {
     <article className="small-film-card catalog__films-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="small-film-card__image">
         {isHovered ? (
-          <VideoPlayer src={film.video} muted width="280" height="175" poster={film.image} autoPlay />
+          <VideoPlayer src={film.video} muted width={280} height={175} poster={film.image} autoPlay />
         ) : (
           <img src={film.image} alt={film.name} width="280" height="175" />
         )}
@@ -45,24 +44,6 @@ export function FilmCard({film}: CardProps) {
     </article>
   );
 }
-
-export type PropsSimilarMovies = {
-  genre: string;
-  filmId: string;
-  films: Film[];
-}
-
-export function getSimilarMovies({genre, filmId, films}: PropsSimilarMovies) {
-  const similarFilms = films.filter((film) =>
-    Details.find((detailInDetails) => detailInDetails.filmId === film.id)?.genre === genre && film.id !== filmId);
-
-  if (similarFilms.length > 4) {
-    return similarFilms.slice(0, 4);
-  }
-
-  return similarFilms;
-}
-
 
 export function FilmCards({ films, children }: FilmsListProps) {
   return (
