@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {FilmCards} from '../film-card';
 import {Footer} from '../footer';
-import {Film, Films} from '../../mocks/films';
-import {Detail, Details} from '../../mocks/details';
 import {GenreList} from '../genres-list';
-import {getMoviesByGenre} from '../functions/get-movies-by-genre';
+import {AppState} from '../../store/reducer';
+import {changeGenre} from '../../store/action';
+import {Film} from '../../mocks/films';
+import {Detail} from '../../mocks/details';
 
 export type MainProps = {
   film: Film;
@@ -12,13 +14,20 @@ export type MainProps = {
 }
 
 export function Main({film, detail}: MainProps) {
+  const details = useSelector((state: AppState) => state.details);
+  const filteredMovies = useSelector((state: AppState) => state.filteredMovies);
+  const dispatch = useDispatch();
   const [activeGenre, setActiveGenre] = useState('All genres');
-  const [filteredMovies, setFilteredMovies] = useState(Films);
+  const [visibleMovies, setVisibleMovies] = useState(8);
 
   const handleGenreChange = (genre: string) => {
     setActiveGenre(genre);
-    const newFilteredMovies = getMoviesByGenre(Films, Details, genre);
-    setFilteredMovies(newFilteredMovies);
+    dispatch(changeGenre(genre));
+    setVisibleMovies(8);
+  };
+
+  const handleShowMore = () => {
+    setVisibleMovies((prev) => prev + 8);
   };
 
   return (
@@ -88,14 +97,14 @@ export function Main({film, detail}: MainProps) {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList details={Details} activeGenre={activeGenre} onGenreChange={handleGenreChange}/>
+          <GenreList details={details} activeGenre={activeGenre} onGenreChange={handleGenreChange}/>
 
-          <FilmCards films={filteredMovies}>
+          <FilmCards films={filteredMovies.slice(0, visibleMovies)}>
+            {
+              filteredMovies.length > visibleMovies &&
+              <button className="catalog__button" type="button" onClick={handleShowMore}>Show more</button>
+            }
           </FilmCards>
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
         </section>
 
         <Footer/>

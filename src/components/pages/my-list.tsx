@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../app';
-import {FilmCard} from '../film-card';
+import {FilmCards} from '../film-card';
 import {Footer} from '../footer';
 import {Films} from '../../mocks/films';
 
@@ -33,8 +33,8 @@ export function MyList() {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <FilmCard films={Films}>
-        </FilmCard>
+        <FilmCards films={Films}>
+        </FilmCards>
 
       </section>
 
