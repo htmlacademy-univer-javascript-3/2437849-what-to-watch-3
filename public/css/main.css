@@ -531,6 +531,8 @@ main {
   text-decoration: none;
   position: relative;
   padding-bottom: 15px;
+  background-color: transparent;
+  border: none;
   -webkit-transition: font-weight;
   transition: font-weight; }
   .catalog__genres-link::after {
@@ -865,6 +867,8 @@ main {
   display: block;
   color: #EEE5B5;
   text-decoration: none;
+  background-color: transparent;
+  border: none;
   position: relative;
   padding-bottom: 19px; }
   .film-nav__link::after {

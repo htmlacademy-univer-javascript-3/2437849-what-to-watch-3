@@ -1,28 +1,19 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {appReducer} from './reducer';
-import {setDetails, setFilms} from './action';
-import {Details} from '../mocks/details';
-import {Films} from '../mocks/films';
 
-export const preloadedState = {
-  genre: 'All genres',
-  films: Films,
-  details: Details,
-  filteredMovies: Films
-};
+import {reducer} from './reducer';
+import {createAPI} from './api';
 
-const store = configureStore({
-  reducer: appReducer,
+export const api = createAPI();
+
+export const store = configureStore({
+  reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['setDetails'],
+      thunk: {
+        extraArgument: api,
       },
     }),
-  preloadedState
 });
 
-store.dispatch(setFilms(Films));
-store.dispatch(setDetails(Details));
-
-export default store;
+export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
