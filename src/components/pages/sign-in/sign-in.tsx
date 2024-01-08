@@ -13,8 +13,7 @@ import {Footer} from '../../footer/footer';
 import {AppRoute} from '../../../types/app-routes';
 import {AuthorizationStatus} from '../../../types/auth-status';
 
-export function SignIn()
-{
+export function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);

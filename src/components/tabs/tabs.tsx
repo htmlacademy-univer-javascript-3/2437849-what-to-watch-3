@@ -1,6 +1,5 @@
 import {useState} from 'react';
 
-import cn from 'classnames';
 import {DetailsTab} from './details-tab';
 import {OverviewTab} from './overview-tab';
 

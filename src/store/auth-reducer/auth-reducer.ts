@@ -9,8 +9,8 @@ import {AuthorizationReducerState} from '../../types/auth-reducer-state';
 
 const initialState: AuthorizationReducerState = {
   authorizationStatus: AuthorizationStatus.Unknown,
-  user: null,
   authorizationError: null,
+  user: null
 };
 
 export const setAuthError = createAction('SET_AUTH_ERROR', (status: string | null) => ({
@@ -28,28 +28,28 @@ export const authReducer = createSlice({
       })
       .addCase(checkAuth.fulfilled, (state, action)=> {
         state.authorizationStatus = AuthorizationStatus.Authorized;
-        state.userInfo = action.payload;
+        state.user = action.payload;
         setToken(action.payload.token);
       })
       .addCase(logout.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuthorized;
-        state.userInfo = null;
+        state.user = null;
         removeToken();
       })
       .addCase(login.fulfilled, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.Authorized;
-        state.userInfo = action.payload;
+        state.user = action.payload;
         setToken(action.payload.token);
       })
       .addCase(login.rejected, (state, action)=> {
         if (action.payload) {
-          state.authError = action.payload.details.map((item) => item.messages).join('\n');
+          state.authorizationError = action.payload.details.map((item) => item.messages).join('\n');
         } else {
-          state.authError = action.error.message;
+          state.authorizationError = action.error.message;
         }
       })
       .addCase(setAuthError, (state, {payload}) => {
-        state.authError = payload;
+        state.authorizationError = payload;
       });
   },
 });
