@@ -1,35 +1,11 @@
-import {createReducer} from '@reduxjs/toolkit';
-import {changeGenre, setDetails, setFilms} from './action';
-import {getMoviesByGenre} from '../components/functions/get-movies-by-genre';
-import {Film, Films} from '../mocks/films';
-import {Detail, Details} from '../mocks/details';
+import {combineReducers} from '@reduxjs/toolkit';
 
-export type AppState = {
-  genre: string;
-  films: Film[];
-  details: Detail[];
-  filteredMovies: Film[];
-};
+import {filmReducer} from './film-reducer/film-reducer';
+import {authReducer} from './auth-reducer/auth-reducer';
 
-export const InitialState: AppState = {
-  genre: 'All genres',
-  films: Films,
-  details: Details,
-  filteredMovies: Films
-};
+import {ReducerType} from '../types/reducer-types';
 
-export const appReducer = createReducer(InitialState, (builder) => {
-  builder
-    .addCase(changeGenre, (state, action) => {
-      state.genre = action.payload;
-      if (state.films && state.details && state.genre) {
-        state.filteredMovies = getMoviesByGenre(state.films, state.details, state.genre);
-      }
-    })
-    .addCase(setFilms, (state, action) => {
-      state.films = action.payload;
-    })
-    .addCase(setDetails, (state, action) => {
-      state.details = action.payload;
-    });
+export const reducer = combineReducers({
+  [ReducerType.Film]: filmReducer.reducer,
+  [ReducerType.Auth]: authReducer.reducer,
 });
