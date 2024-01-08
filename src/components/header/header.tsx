@@ -1,3 +1,4 @@
+import {JSX} from 'react';
 import {Link} from 'react-router-dom';
 
 import {useAppSelector} from '../../store/hooks/use-app-selector';
@@ -9,7 +10,11 @@ import {AppRoute} from '../../types/app-routes';
 import {AuthorizationStatus} from '../../types/auth-status';
 import {Logo} from '../logo/logo';
 
-export function Header() {
+type HeaderProps = {
+  children?: JSX.Element;
+}
+
+export function Header({children}:HeaderProps) {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
@@ -23,6 +28,8 @@ export function Header() {
 
       <header className="page-header film-card__head">
         <Logo/>
+
+        {children}
 
         <ul className="user-block">
           {authStatus === AuthorizationStatus.Authorized && user && (
