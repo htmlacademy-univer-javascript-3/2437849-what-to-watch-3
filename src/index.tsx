@@ -5,23 +5,20 @@ import {Provider} from 'react-redux';
 
 import {App} from './components/app/app';
 import {store} from './store';
-import {checkAuth, fetchFavoriteFilms, fetchFilms, fetchPromo} from './store/api-actions';
+import {checkAuth, fetchFavoriteFilms, fetchPromo, fetchFilms} from './store/api-actions';
 
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-
-store.dispatch(fetchFilms());
-store.dispatch(fetchPromo());
 store.dispatch(checkAuth());
 store.dispatch(fetchFavoriteFilms());
+store.dispatch(fetchPromo());
+store.dispatch(fetchFilms());
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <App/>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

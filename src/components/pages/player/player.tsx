@@ -4,7 +4,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {useAppSelector} from '../../../store/hooks/use-app-selector';
 import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {fetchFilm} from '../../../store/api-actions';
-import {getFilm, getLoadingStatus} from '../../../store/film-reducer/film-selectors';
+import {getFilm, getLoadingStatus} from '../../../store/reducers-selectors';
 
 import {Loader} from '../../loader/loader';
 import {PlayIcon} from '../../play-icon/play-icon';
@@ -18,13 +18,6 @@ export function Player() {
   const [viewedTime, setViewedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const isLoading = useAppSelector(getLoadingStatus);
-  const currentFilm = useAppSelector(getFilm);
-
-  const dispatch = useAppDispatch();
-  const screenRef = useRef() as MutableRefObject<HTMLDivElement>;
-  const videoRef = useRef() as MutableRefObject<HTMLVideoElement>;
-
   const onStart = useCallback(() => {
     setIsPlaying(true);
   }, []);
@@ -37,12 +30,19 @@ export function Player() {
     setViewedTime(event.target.currentTime);
   }, []);
 
+  const isLoading = useAppSelector(getLoadingStatus);
+  const currentFilm = useAppSelector(getFilm);
+
+  const dispatch = useAppDispatch();
+
+  const screenRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const videoRef = useRef() as MutableRefObject<HTMLVideoElement>;
+
   useEffect(() => {
     if (id) {
       dispatch(fetchFilm(id));
     }
   }, [dispatch, id]);
-
 
   if (isLoading) {
     return (<Loader/>);
@@ -92,7 +92,7 @@ export function Player() {
     }
   };
 
-  const playedPercent = 100 * (viewedTime / (currentFilm.runTime * 60));
+  const filmPlayedPercent = 100 * (viewedTime / (currentFilm.runTime * 60));
 
   return (
     <div className="player" ref={screenRef}>
@@ -105,9 +105,9 @@ export function Player() {
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
-            <progress className="player__progress" value={playedPercent} max="100"/>
+            <progress className="player__progress" value={filmPlayedPercent} max={100}/>
 
-            <div className="player__toggler" style={{left: `${playedPercent}%`}}>Toggler</div>
+            <div className="player__toggler" style={{left: `${filmPlayedPercent}%`}}>Toggler</div>
           </div>
 
           <div className="player__time-value">{getLeftTime()}</div>
@@ -123,9 +123,7 @@ export function Player() {
           <div className="player__name">Transpotting</div>
 
           <button type="button" className="player__full-screen" onClick={handleTogglingFullscreenClick}>
-            <svg viewBox="0 0 27 27" width="27" height="27">
-              <use xlinkHref="#full-screen"/>
-            </svg>
+            <svg viewBox="0 0 27 27" width={27} height={27}><use xlinkHref="#full-screen"/></svg>
 
             <span>Full screen</span>
           </button>

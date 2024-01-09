@@ -4,10 +4,10 @@ import {Review} from './review';
 export type FilmReducerState = {
   isLoading: boolean;
   films: Array<Film>;
-  promoFilm: Film | null;
+  promo: Film | null;
   selectedFilm: Film | null;
-  genreFilter: string;
-  genreFilteredFilms: Array<Film>;
+  selectedGenre: string;
+  selectedGenreFilms: Array<Film>;
   similarFilms: Array<Film>;
   reviews: Array<Review>;
   favoriteFilms: Array<Film>;

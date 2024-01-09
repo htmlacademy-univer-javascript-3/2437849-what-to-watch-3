@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 import {useAppSelector} from '../../store/hooks/use-app-selector';
 import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
-import {getAuthorizationStatus, getUser} from '../../store/auth-reducer/auth-selectors';
+import {getAuthorizationStatus, getUser} from '../../store/reducers-selectors';
 import {logout} from '../../store/api-actions';
 
 import {AppRoute} from '../../types/app-routes';
@@ -14,9 +14,10 @@ type HeaderProps = {
   children?: JSX.Element;
 }
 
-export function Header({children}:HeaderProps) {
+export function Header({children}: HeaderProps) {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const user = useAppSelector(getUser);
+
   const dispatch = useAppDispatch();
   const handleLogoutClick = () => {
     dispatch(logout());
@@ -37,7 +38,7 @@ export function Header({children}:HeaderProps) {
               <li className="user-block__item">
                 <div className="user-block__avatar">
                   <Link to={AppRoute.MyList}>
-                    <img src={user.avatarUrl} alt={user.name} width="63" height="63"/>
+                    <img src={user.avatarUrl} alt={user.name} width={63} height={63}/>
                   </Link>
                 </div>
               </li>

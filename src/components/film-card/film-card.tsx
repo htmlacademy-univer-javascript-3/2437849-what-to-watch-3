@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 import {VideoPlayer} from '../video-player/video-player';
 
 import {Film} from '../../types/film';
-import {PREVIEW_TIMEOUT} from '../../consts';
+
+const PREVIEW_TIMEOUT = 1000;
 
 type CardProps = {
   film: Film;
