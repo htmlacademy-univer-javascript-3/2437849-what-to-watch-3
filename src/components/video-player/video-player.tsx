@@ -8,7 +8,5 @@ type VideoPlayerProps = {
 }
 
 export function VideoPlayer(props: VideoPlayerProps) {
-  return (
-    <video {...props}/>
-  );
+  return <video {...props}/>;
 }

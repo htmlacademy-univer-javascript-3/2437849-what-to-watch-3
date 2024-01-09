@@ -4,8 +4,8 @@ import {Link, useParams} from 'react-router-dom';
 import {useAppSelector} from '../../../store/hooks/use-app-selector';
 import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {fetchFilm, fetchReviews, fetchSimilar} from '../../../store/api-actions';
-import {getFilm, getFilmReviews, getLoadingStatus, getSimilarFilms} from '../../../store/film-reducer/film-selectors';
-import {getAuthorizationStatus} from '../../../store/auth-reducer/auth-selectors';
+import {getFilm, getFilmReviews, getLoadingStatus, getSimilarFilms} from '../../../store/reducers-selectors';
+import {getAuthorizationStatus} from '../../../store/reducers-selectors';
 
 import {Header} from '../../header/header';
 import {Footer} from '../../footer/footer';
@@ -20,12 +20,12 @@ import {AuthorizationStatus} from '../../../types/auth-status';
 export function Movie() {
   const {id} = useParams();
 
-  const films = useAppSelector(getSimilarFilms);
   const isLoading = useAppSelector(getLoadingStatus);
   const currentFilm = useAppSelector(getFilm);
+  const films = useAppSelector(getSimilarFilms);
   const reviews = useAppSelector(getFilmReviews);
-
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,11 +37,11 @@ export function Movie() {
   }, [dispatch, id]);
 
   if (isLoading) {
-    return (<Loader/>);
+    return <Loader/>;
   }
 
   if (!currentFilm || !id) {
-    return (<NotFound/>);
+    return <NotFound/>;
   }
 
   return (
@@ -66,7 +66,7 @@ export function Movie() {
 
               <div className="film-card__buttons">
                 <Link to={`/player/${id}`} className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
+                  <svg viewBox="0 0 19 19" width={19} height={19}>
                     <use xlinkHref="#play-s"/>
                   </svg>
 
@@ -86,7 +86,7 @@ export function Movie() {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poter film-card__poster--big">
-              <img src={currentFilm.posterImage} alt={currentFilm.name} width="218" height="327"/>
+              <img src={currentFilm.posterImage} alt={currentFilm.name} width={218} height={327}/>
             </div>
 
             <Tabs film={currentFilm} reviews={reviews}/>

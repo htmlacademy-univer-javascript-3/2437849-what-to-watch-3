@@ -4,13 +4,14 @@ import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useAppSelector} from '../../../store/hooks/use-app-selector';
 import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {addReview, fetchFilm} from '../../../store/api-actions';
-import {getFilm, getLoadingStatus} from '../../../store/film-reducer/film-selectors';
+import {getFilm, getLoadingStatus} from '../../../store/reducers-selectors';
 
 import {Loader} from '../../loader/loader';
 import {Header} from '../../header/header';
 import {NotFound} from '../../not-found/not-found';
 
-import {REVIEW_MIN_LENGTH, REVIEW_MAX_LENGTH} from '../../../consts';
+const REVIEW_MIN_LENGTH = 50;
+const REVIEW_MAX_LENGTH = 400;
 
 export function AddReview(){
   const {id} = useParams();
@@ -40,32 +41,34 @@ export function AddReview(){
     return (<NotFound/>);
   }
 
-  const isAbleToSubmit = selectedRating > 0 && reviewText.length >= REVIEW_MIN_LENGTH
+  const isReviewComplete = selectedRating > 0 && reviewText.length >= REVIEW_MIN_LENGTH
     && reviewText.length <= REVIEW_MAX_LENGTH && !isDisabled;
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleReviewFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!id || !isAbleToSubmit){
+    if (!id || !isReviewComplete) {
       return;
     }
 
     setIsDisabled(true);
-    dispatch(addReview({rating: selectedRating, comment: reviewText, filmId: id})).then((data) => {
-      if (!data.payload){
-        throw new Error('Error while adding review');
-      }
+    dispatch(addReview({rating: selectedRating, comment: reviewText, filmId: id}))
+      .then((data) => {
+        if (!data.payload){
+          throw new Error('Failed to add review');
+        }
 
-      setIsDisabled(false);
-      navigate(`/films/${id}`);
-    }).catch((err) => {
-      const error = err as Error;
+        setIsDisabled(false);
+        navigate(`/films/${id}`);
+      })
+      .catch((err) => {
+        const error = err as Error;
 
-      if (error.message) {
-        setError(error.message);
-      }
+        if (error.message) {
+          setError(error.message);
+        }
 
-      setIsDisabled(false);
-    });
+        setIsDisabled(false);
+      });
   }
 
   const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) =>
@@ -93,12 +96,12 @@ export function AddReview(){
         </Header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={currentFilm.posterImage} alt={currentFilm.name} width="218" height="327"/>
+          <img src={currentFilm.posterImage} alt={currentFilm.name} width={218} height={327}/>
         </div>
       </div>
 
       <div className="add-review">
-        <form action="src/components/pages#" className="add-review__form" onSubmit={handleFormSubmit}>
+        <form action="src/components/pages#" className="add-review__form" onSubmit={handleReviewFormSubmit}>
           <div className="rating">
             <div className="rating__stars">
               <input className="rating__input" id="star-10" type="radio" name="rating" value={10}
@@ -161,7 +164,7 @@ export function AddReview(){
             </textarea>
 
             <div className="add-review__submit">
-              <button className="add-review__btn" disabled={!isAbleToSubmit} type="submit">Post</button>
+              <button className="add-review__btn" disabled={!isReviewComplete} type="submit">Post</button>
             </div>
           </div>
 

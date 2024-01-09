@@ -20,7 +20,7 @@ function getRatingDescription(rating: number) {
       return 'Awesome';
 
     default:
-      return 'Invalid rating';
+      return 'Unknown';
   }
 }
 
@@ -47,9 +47,7 @@ export function OverviewTab({film}: OverviewTabProps){
         <p className="film-card__director"><strong>Director: {film.director}</strong></p>
 
         <p className="film-card__starring">
-          <strong>
-            {film.starring.slice(0, 3).join(', ')} {film.starring.length > 3 && 'and more'}
-          </strong>
+          <strong>Starring: {film.starring.join(', ')} and other</strong>
         </p>
       </div>
     </React.Fragment>

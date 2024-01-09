@@ -1,7 +1,7 @@
 import {combineReducers} from '@reduxjs/toolkit';
 
-import {filmReducer} from './film-reducer/film-reducer';
-import {authReducer} from './auth-reducer/auth-reducer';
+import {filmReducer} from './film-reducer';
+import {authReducer} from './auth-reducer';
 
 import {ReducerType} from '../types/reducer-types';
 

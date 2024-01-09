@@ -4,8 +4,8 @@ import {Navigate} from 'react-router-dom';
 import {useAppSelector} from '../../../store/hooks/use-app-selector';
 import {useAppDispatch} from '../../../store/hooks/use-app-dispatch';
 import {login} from '../../../store/api-actions';
-import {getAuthError, getAuthorizationStatus} from '../../../store/auth-reducer/auth-selectors';
-import {setAuthError} from '../../../store/auth-reducer/auth-reducer';
+import {getAuthError, getAuthorizationStatus} from '../../../store/reducers-selectors';
+import {setAuthError} from '../../../store/auth-reducer';
 
 import {Header} from '../../header/header';
 import {Footer} from '../../footer/footer';
@@ -30,7 +30,7 @@ export function SignIn() {
     return <Navigate to={AppRoute.Main}/>;
   }
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleAuthorizationFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!email || !password || isDisabled){
       return;
@@ -61,7 +61,7 @@ export function SignIn() {
       <Header/>
 
       <div className="sign-in user-page__content">
-        <form action="src/components/pages#" className="sign-in__form" onSubmit={handleFormSubmit}>
+        <form action="src/components/pages#" className="sign-in__form" onSubmit={handleAuthorizationFormSubmit}>
           {error && (
             <div className="sign-in__message">
               <p>{error}</p>
