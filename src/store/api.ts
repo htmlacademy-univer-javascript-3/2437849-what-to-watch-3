@@ -1,8 +1,18 @@
-import axios, {AxiosRequestConfig} from 'axios';
-import {getToken} from './token';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export const BASE_URL = 'https://13.design.pages.academy/wtw';
-export const TIMEOUT = 5000;
+import axios, {AxiosError, AxiosRequestConfig} from 'axios';
+import {getToken} from './token';
+import {StatusCodes} from 'http-status-codes';
+
+const BASE_URL = 'https://13.design.pages.academy/wtw';
+const TIMEOUT = 5000;
+
+const errorCodes = new Set([
+  StatusCodes.UNAUTHORIZED,
+  StatusCodes.NOT_FOUND,
+  StatusCodes.BAD_REQUEST
+]);
 
 export function createAPI() {
   const api = axios.create({
@@ -17,7 +27,18 @@ export function createAPI() {
         config.headers['x-token'] = token;
       }
       return config;
-    },
+    }
+  );
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      if (error.response && !errorCodes.has(error.response.status)) {
+        toast.error('Request error');
+      }
+
+      throw error;
+    }
   );
 
   return api;

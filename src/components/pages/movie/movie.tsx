@@ -52,7 +52,7 @@ export function Movie() {
             <img src={currentFilm.backgroundImage} alt={currentFilm.name}/>
           </div>
 
-          <Header/>
+          <Header headerClass={'film-card__head'}/>
 
           <div className="film-card__wrap">
             <div className="film-card__desc">

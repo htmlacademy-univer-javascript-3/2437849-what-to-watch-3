@@ -8,6 +8,7 @@ export type FilmReducerState = {
   selectedFilm: Film | null;
   selectedGenre: string;
   selectedGenreFilms: Array<Film>;
+  selectedGenreFilmsCount: number;
   similarFilms: Array<Film>;
   reviews: Array<Review>;
   favoriteFilms: Array<Film>;

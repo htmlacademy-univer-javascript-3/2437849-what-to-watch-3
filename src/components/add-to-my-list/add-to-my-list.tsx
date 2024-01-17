@@ -23,8 +23,8 @@ export function AddToMyList({filmId, status}: AddToMyListProps){
     <button className="btn btn--list film-card__button" type="button" onClick={handleTogglingFavoriteClick}>
       {
         status
-          ? (<svg viewBox="0 0 19 20" width={19} height={20}><use xlinkHref="#in-list"/></svg>)
-          : (<svg viewBox="0 0 19 20" width={19} height={20}><use xlinkHref="#add"/></svg>)
+          ? (<svg viewBox="0 0 19 20" width={19} height={20}><use xlinkHref="#in-list" data-testid="in-list"/></svg>)
+          : (<svg viewBox="0 0 19 20" width={19} height={20}><use xlinkHref="#add" data-testid="add"/></svg>)
       }
       <span>My list</span>
       <span className="film-card__count">{favoriteCount}</span>
