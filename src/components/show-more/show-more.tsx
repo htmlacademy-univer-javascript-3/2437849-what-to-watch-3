@@ -1,11 +1,18 @@
-type ShowMoreButtonProps = {
-  action: () => void;
-}
+import {MouseEvent} from 'react';
 
-export function ShowMoreButton({action}: ShowMoreButtonProps) {
+import {useAppDispatch} from '../../store/hooks/use-app-dispatch';
+import {setFilmsCount} from '../../store/film-reducer';
+
+export function ShowMoreButton() {
+  const dispatch = useAppDispatch();
+  const handleShowMoreClick = (evt: MouseEvent<HTMLButtonElement>) => {
+    evt.preventDefault();
+    dispatch(setFilmsCount());
+  };
+
   return (
     <div className="catalog__more">
-      <button className="catalog__button" type="button" onClick={() => action()}>Show more</button>
+      <button className="catalog__button" type="button" onClick={handleShowMoreClick}>Show more</button>
     </div>
   );
 }

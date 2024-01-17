@@ -13,7 +13,7 @@ import {NotFound} from '../../not-found/not-found';
 const REVIEW_MIN_LENGTH = 50;
 const REVIEW_MAX_LENGTH = 400;
 
-export function AddReview(){
+export function AddReview() {
   const {id} = useParams();
   const navigate = useNavigate();
 
@@ -51,9 +51,10 @@ export function AddReview(){
     }
 
     setIsDisabled(true);
+
     dispatch(addReview({rating: selectedRating, comment: reviewText, filmId: id}))
       .then((data) => {
-        if (!data.payload){
+        if (!data.payload) {
           throw new Error('Failed to add review');
         }
 
@@ -103,54 +104,54 @@ export function AddReview(){
       <div className="add-review">
         <form action="src/components/pages#" className="add-review__form" onSubmit={handleReviewFormSubmit}>
           <div className="rating">
-            <div className="rating__stars">
+            <div className="rating__stars" data-testid="stars-component">
               <input className="rating__input" id="star-10" type="radio" name="rating" value={10}
-                checked={selectedRating === 10} onChange={handleRatingChange}
+                checked={selectedRating === 10} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-10">Rating 10</label>
 
               <input className="rating__input" id="star-9" type="radio" name="rating" value={9}
-                checked={selectedRating === 9} onChange={handleRatingChange}
+                checked={selectedRating === 9} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-9">Rating 9</label>
 
               <input className="rating__input" id="star-8" type="radio" name="rating" value={8}
-                checked={selectedRating === 8} onChange={handleRatingChange}
+                checked={selectedRating === 8} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-8">Rating 8</label>
 
               <input className="rating__input" id="star-7" type="radio" name="rating" value={7}
-                checked={selectedRating === 7} onChange={handleRatingChange}
+                checked={selectedRating === 7} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-7">Rating 7</label>
 
               <input className="rating__input" id="star-6" type="radio" name="rating" value={6}
-                checked={selectedRating === 6} onChange={handleRatingChange}
+                checked={selectedRating === 6} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-6">Rating 6</label>
 
               <input className="rating__input" id="star-5" type="radio" name="rating" value={5}
-                checked={selectedRating === 5} onChange={handleRatingChange}
+                checked={selectedRating === 5} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-5">Rating 5</label>
 
               <input className="rating__input" id="star-4" type="radio" name="rating" value={4}
-                checked={selectedRating === 4} onChange={handleRatingChange}
+                checked={selectedRating === 4} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-4">Rating 4</label>
 
               <input className="rating__input" id="star-3" type="radio" name="rating" value={3}
-                checked={selectedRating === 3} onChange={handleRatingChange}
+                checked={selectedRating === 3} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-3">Rating 3</label>
 
               <input className="rating__input" id="star-2" type="radio" name="rating" value={2}
-                checked={selectedRating === 2} onChange={handleRatingChange}
+                checked={selectedRating === 2} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-2">Rating 2</label>
 
               <input className="rating__input" id="star-1" type="radio" name="rating" value={1}
-                checked={selectedRating === 1} onChange={handleRatingChange}
+                checked={selectedRating === 1} onChange={handleRatingChange} disabled={isDisabled}
               />
               <label className="rating__label" htmlFor="star-1">Rating 1</label>
             </div>
@@ -159,7 +160,7 @@ export function AddReview(){
           <div className="add-review__text">
             <textarea className="add-review__textarea" name="review-text" id="review-text" value={reviewText}
               onChange={(event) => setReviewText(event.target.value)}
-              placeholder="Review text" maxLength={REVIEW_MAX_LENGTH}
+              placeholder="Review text" maxLength={REVIEW_MAX_LENGTH} disabled={isDisabled}
             >
             </textarea>
 

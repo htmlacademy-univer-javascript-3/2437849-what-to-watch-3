@@ -1,12 +1,13 @@
 import {createAction, createSlice} from '@reduxjs/toolkit';
 
-import {addReview, fetchFavoriteFilms, fetchFilm, fetchFilms, fetchPromo, fetchReviews, fetchSimilar,
-  setFavoriteStatus} from './api-actions';
+import {fetchFilm, fetchPromo, fetchFilms, fetchSimilar, setFavoriteStatus, fetchFavoriteFilms,
+  fetchReviews, addReview} from './api-actions';
 
 import {ReducerType} from '../types/reducer-types';
 import {FilmReducerState} from '../types/film-reducer-state';
 
-const ALL_GENRES = 'All genres';
+export const ALL_GENRES = 'All genres';
+const FILMS_PAGE_COUNT = 8;
 
 const initialState: FilmReducerState = {
   isLoading: false,
@@ -15,15 +16,17 @@ const initialState: FilmReducerState = {
   selectedFilm: null,
   selectedGenre: ALL_GENRES,
   selectedGenreFilms: [],
+  selectedGenreFilmsCount: 0,
   similarFilms: [],
   reviews: [],
   favoriteFilms: [],
   genres: [ALL_GENRES],
 };
 
-export const setGenreFilter = createAction('SET_GENRE_FILTER', (genre: string) => ({
+export const setGenreFilter = createAction('main/setGenreFilter', (genre: string) => ({
   payload: genre
 }));
+export const setFilmsCount = createAction('main/setFilmsCount');
 
 // noinspection TypeScriptValidateTypes
 export const filmReducer = createSlice({
@@ -35,12 +38,21 @@ export const filmReducer = createSlice({
       .addCase(setGenreFilter, (state, {payload}) => {
         state.selectedGenre = payload;
         state.selectedGenreFilms = state.films.filter((film) => state.selectedGenre === ALL_GENRES || film.genre === state.selectedGenre);
+        state.selectedGenreFilmsCount = Math.min(state.selectedGenreFilms.length, FILMS_PAGE_COUNT);
+      })
+      .addCase(setFilmsCount, (state) => {
+        state.selectedGenreFilmsCount = Math.min(state.selectedGenreFilms.length,
+          state.selectedGenreFilmsCount + FILMS_PAGE_COUNT);
       })
       .addCase(fetchFilm.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(fetchFilm.fulfilled, (state, action) => {
         state.selectedFilm = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchFilm.rejected, (state) => {
+        state.selectedFilm = null;
         state.isLoading = false;
       })
       .addCase(fetchPromo.fulfilled, (state, action) => {
@@ -52,6 +64,7 @@ export const filmReducer = createSlice({
       .addCase(fetchFilms.fulfilled, (state, action) => {
         state.films = action.payload;
         state.selectedGenreFilms = state.films.filter((film) => state.selectedGenre === ALL_GENRES || film.genre === state.selectedGenre);
+        state.selectedGenreFilmsCount = Math.min(state.films.length, FILMS_PAGE_COUNT);
         state.genres = [ALL_GENRES, ...new Set(state.films.map((film) => film.genre))];
         state.isLoading = false;
       })

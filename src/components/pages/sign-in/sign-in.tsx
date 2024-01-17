@@ -58,10 +58,12 @@ export function SignIn() {
 
   return (
     <div className="user-page">
-      <Header/>
+      <Header headerClass={'user-page__head'}/>
 
       <div className="sign-in user-page__content">
-        <form action="src/components/pages#" className="sign-in__form" onSubmit={handleAuthorizationFormSubmit}>
+        <form action="src/components/pages#" className="sign-in__form" onSubmit={handleAuthorizationFormSubmit}
+          data-testid="form"
+        >
           {error && (
             <div className="sign-in__message">
               <p>{error}</p>
@@ -70,7 +72,7 @@ export function SignIn() {
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input className="sign-in__input" type="email" id="user-email" placeholder="Email address" name="user-email"
-                value={email} required onChange={(event) => setEmail(event.target.value)}
+                value={email} required onChange={(event) => setEmail(event.target.value)} data-testid="email"
               />
 
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
@@ -78,7 +80,7 @@ export function SignIn() {
 
             <div className="sign-in__field">
               <input className="sign-in__input" type="password" id="user-password" placeholder="Password" name="user-password"
-                required value={password} onChange={(event) => setPassword(event.target.value)}
+                required value={password} onChange={(event) => setPassword(event.target.value)} data-testid="password"
               />
 
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>

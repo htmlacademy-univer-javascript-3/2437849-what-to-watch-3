@@ -63,8 +63,8 @@ export function Player() {
     const hours = Math.floor(timeLeft / 3600).toString().padStart(2, '0');
 
     return (hours !== '00')
-      ? `${hours}:${minutes}:${seconds}`
-      : `${minutes}:${seconds}`;
+      ? `-${hours}:${minutes}:${seconds}`
+      : `-${minutes}:${seconds}`;
   }
 
   const handlePlayingControlClick = () => {
@@ -120,7 +120,7 @@ export function Player() {
               : <PauseIcon/>}
           </button>
 
-          <div className="player__name">Transpotting</div>
+          <div className="player__name">{currentFilm.name}</div>
 
           <button type="button" className="player__full-screen" onClick={handleTogglingFullscreenClick}>
             <svg viewBox="0 0 27 27" width={27} height={27}><use xlinkHref="#full-screen"/></svg>

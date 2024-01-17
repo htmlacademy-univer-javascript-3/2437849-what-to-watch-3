@@ -28,28 +28,16 @@ export function FilmCard({film}: CardProps) {
   };
 
   return (
-    <article className="small-film-card catalog__films-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <Link to={`/films/${film.id}`} className="small-film-card__link small-film-card catalog__films-card"
+      onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}
+    >
       <div className="small-film-card__image">
         {isHovered
           ? (<VideoPlayer src={film.previewVideoLink} muted width={280} height={175} poster={film.previewImage} autoPlay/>)
           : (<img src={film.previewImage} alt={film.name} width={280} height={175}/>)}
       </div>
 
-      <h3 className="small-film-card__title">
-        <Link to={`/films/${film.id}`} className="small-film-card__link">{film.name}</Link>
-      </h3>
-    </article>
-  );
-}
-
-type FilmListProps = {
-  films: Array<Film>;
-}
-
-export function FilmCardList({films}: FilmListProps) {
-  return (
-    <div className="catalog__films-list">
-      {films.map((film) => (<FilmCard key={film.id} film={film}/>))}
-    </div>
+      <h3 className="small-film-card__title">{film.name}</h3>
+    </Link>
   );
 }

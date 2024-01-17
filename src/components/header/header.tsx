@@ -12,9 +12,10 @@ import {Logo} from '../logo/logo';
 
 type HeaderProps = {
   children?: JSX.Element;
+  headerClass?: string;
 }
 
-export function Header({children}: HeaderProps) {
+export function Header({children, headerClass}: HeaderProps) {
   const authStatus = useAppSelector(getAuthorizationStatus);
   const user = useAppSelector(getUser);
 
@@ -27,7 +28,7 @@ export function Header({children}: HeaderProps) {
     <>
       <h1 className="visually-hidden">WTW</h1>
 
-      <header className="page-header film-card__head">
+      <header className={`page-header ${headerClass ?? ''}`}>
         <Logo/>
 
         {children}

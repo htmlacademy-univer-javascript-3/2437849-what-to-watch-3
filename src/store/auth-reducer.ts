@@ -13,7 +13,7 @@ const initialState: AuthorizationReducerState = {
   user: null
 };
 
-export const setAuthError = createAction('SET_AUTH_ERROR',
+export const setAuthError = createAction('login/setAuthError',
   (status: string | null) => ({payload: status}));
 
 // noinspection TypeScriptValidateTypes

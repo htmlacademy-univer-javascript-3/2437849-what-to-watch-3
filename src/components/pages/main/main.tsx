@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 import {useAppSelector} from '../../../store/hooks/use-app-selector';
-import {getLoadingStatus, getPromo, getFilmsByGenre} from '../../../store/reducers-selectors';
+import {getLoadingStatus, getPromo, getFilmsByGenre, getFilmsCount} from '../../../store/reducers-selectors';
 import {getAuthorizationStatus} from '../../../store/reducers-selectors';
 
 import {Header} from '../../header/header';
@@ -11,6 +11,7 @@ import {AddToMyList} from '../../add-to-my-list/add-to-my-list';
 import {FilmList} from '../../film-list/film-list';
 import {GenresList} from '../../genres-list/genres-list';
 import {Loader} from '../../loader/loader';
+import {ShowMoreButton} from '../../show-more/show-more';
 
 import {AuthorizationStatus} from '../../../types/auth-status';
 
@@ -19,6 +20,7 @@ export function Main() {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const promo = useAppSelector(getPromo);
   const selectedGenreFilms = useAppSelector(getFilmsByGenre);
+  const selectedGenreFilmsCount = useAppSelector(getFilmsCount);
 
   if (isLoading || promo === null) {
     return (<Loader/>);
@@ -31,7 +33,7 @@ export function Main() {
           <img src={promo.backgroundImage} alt={promo.name}/>
         </div>
 
-        <Header/>
+        <Header headerClass={'film-card__head'}/>
 
         <div className="film-card__wrap">
           <div className="film-card__info">
@@ -71,7 +73,9 @@ export function Main() {
 
           <GenresList/>
 
-          <FilmList films={selectedGenreFilms}/>
+          <FilmList films={selectedGenreFilms.slice(0, selectedGenreFilmsCount)}/>
+
+          {selectedGenreFilmsCount !== selectedGenreFilms.length && <ShowMoreButton/>}
         </section>
 
         <Footer/>
