@@ -179,9 +179,9 @@ export function withStore(component: JSX.Element, initialState: PartialStore = {
   });
 }
 
-export function withRouter(component: JSX.Element, initialEntries?: InitialEntry[]): JSX.Element {
+export function withRouter(component: JSX.Element, entries?: InitialEntry[]): JSX.Element {
   return (
-    <MemoryRouter initialEntries={initialEntries}>
+    <MemoryRouter initialEntries={entries}>
       {component}
     </MemoryRouter>
   );
