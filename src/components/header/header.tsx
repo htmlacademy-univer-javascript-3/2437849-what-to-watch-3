@@ -28,7 +28,7 @@ export function Header({children, headerClass}: HeaderProps) {
     <>
       <h1 className="visually-hidden">WTW</h1>
 
-      <header className={`page-header ${headerClass}`}>
+      <header className={`page-header ${headerClass ?? ''}`}>
         <Logo/>
 
         {children}
